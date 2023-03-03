@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="stylesheet" href='/staticFiles/style.css' />
+    <title>SQL Query Generator</title>
+  </head>
+  <body>
+    <form action="" id="get_table_name" method="p
+    "></form>
+    {% block content %}
+   
+    <div id="my-content"></div>
+    <div class="main-container">
+        <div class="up-container">
+             <div class="table-container">
+                <h2>List of ALL Tables from Database</h2>
+
+                <div class="table_name">
+                    {% for table_name in myresult %}
+                    <center>
+                        <div class="table_list_name" id="table_list_name">
+                            <input type="text" name="sub_class" name="check" ondragstart="drag(event)" draggable="true" id="{{table_name}}" class="items" value="{{table_name}}" disabled>
+                        </div>
+                    </center>
+                    {% endfor %}
+                </div>
+             </div>
+             <div class="drag_n_drop-container mid-query" id="getData">
+                <center>
+                    <h2><i>DRAG N DROP AREA</i></h2>
+                </center>
+                <div class="mid_query_box mid_query_features_box_1">
+                    <center>
+                        <h3 class="mid-query-h1"><i>Code Block</i></h3>
+                        
+                    </center>
+                    <div class="mid-query2" id="getData1" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                       
+
+                        <div id="display_flex">
+
+                        </div>
+                    </div>
+                </div>
+                
+             </div>
+
+             
+        </div>
+        <div class="down-container">
+             <center>
+                <div class="query-container">
+                    <center><h2>AUTO QUERY WRITTER AREA</h2></center>
+                </div>
+             </center>
+        </div>
+    </div>
+
+
+
+
+
+   
+
+
+    {% endblock %}
+    <script src="/staticFiles/index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  </body>
+</html>
