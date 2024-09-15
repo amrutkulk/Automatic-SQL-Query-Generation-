@@ -1,0 +1,5 @@
+1)Save query - so 1 box will append to specific position we can also click that box
+2)write text to query using import option and file 
+3) toggle dark mode
+4)view
+5)import database

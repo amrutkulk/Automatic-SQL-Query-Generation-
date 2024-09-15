@@ -3,42 +3,761 @@
 <head>
 
     <link rel="stylesheet" href='/staticFiles/style.css' />
-    <title>SQL Query Generator</title>
-  </head>
-  <body>
-    <form action="" id="get_table_name" method="p
-    "></form>
-    {% block content %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/496b9c5c00.js" crossorigin="anonymous"></script>
    
-    <div id="my-content"></div>
-    <div class="main-container">
-        <div class="up-container">
-             <div class="table-container">
-                <h2>List of ALL Tables from Database</h2>
+    
+    <title>SQL Query Generator</title>
+    <link rel="website icon" type="PNG" href="staticFiles/images/SQL_logo.PNG">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan&family=Assistant&family=Fira+Sans:wght@300&family=Mulish&family=PT+Sans&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  </head>
+  <style>
+    body{
+        background-color: #dcf7ec;
+    }
+  </style>
+  <body>
+    <audio id="myAudio">
+        <source src="{{ url_for('static', filename='ting.mp3') }}" type="audio/mpeg">
+    </audio>
+   
+    {% block content %}
+  <!-- onclick="restart_server()" -->
+    <!-- navbar -->
+    <nav class="navbar navbar-dark bg-dark fixed-top" id="timepass">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Auto SQL</a>
+          <h3 style="color: white;">Welcome {{session.name}} <span id="user_id">{{session.userid}}</span></h3>
+          <p style="color: white;">Selected Database: {{ item_dropdown }}</p>
+          <a style="color: black;border:1px solid black;background-color:#00ff95;text-decoration: none;text-align:center;width:150px;border-radius:20px;" href="{{url_for('dropdown')}}" >Change DB</a>
 
-                <div class="table_name">
+
+
+
+
+          
+
+
+
+
+         
+
+          <!-- <div><i class="fa-regular fa-hand-wave" style="color: #f2d40d;width: 30px;height:30px"></i></div> -->
+          <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+            All Queries
+          </button>
+          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">List of Queries</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <form class="d-flex mt-3" role="search">
+                <input class="form-control me-2" id="searchInput_nav"  type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success"  >Search</button><br>
+               
+              </form>
+             <div>
+                <button class="btn btn-success" onclick="refresh_queries()" type="submit">Refresh</button>
+             </div>
+            <div class="offcanvas-body"> 
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="refresh_query">
+
+                {% for query in query_list %}
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Query </a>
+                  <div class="card" style="width: 18rem;">
+                  
+                    <div class="card-body cardno">
+                        <h5 class="card-title">SQL QUery</h5>
+                        <p class="card-text">{{query}}</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                   </div>
+                </li>
+                {% endfor %}
+                
+               
+                <!-- <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li> -->
+              </ul>
+              
+            </div>
+          </div>
+
+          <button class="btn" style="background-color: #00ff95;border-radius:30px;color:while;font-weight:bold;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbars" aria-controls="offcanvasDarkNavbars" aria-label="Toggle navigation">
+            <!-- <span class="navbar-toggler-icon">Profile</span> -->
+            Profile
+          </button>
+
+          <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbars" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Profile</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+           
+            <div class="container">
+                <div class="row profile">
+                    <div class="col-md-12">
+                        <div class="profile-sidebar">
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                               <center> <img src="staticFiles/images/client.jpg" class="img-responsive" alt=""></center>
+                            </div>
+                            <!-- END SIDEBAR USERPIC -->
+                            <!-- SIDEBAR USER TITLE -->
+                            <div class="profile-usertitle">
+                                <div class="profile-usertitle-name">
+                                    {{session.name}}
+                                </div>
+                                <div class="profile-usertitle-job">
+                                    user id - {{session.userid}}
+                                </div>
+                            </div>
+                            <!-- END SIDEBAR USER TITLE -->
+                            <!-- SIDEBAR BUTTONS -->
+                            <div class="profile-userbuttons">
+                                <button type="button" class="btn btn-success btn-sm"><a href="{{url_for('home')}}" style="text-decoration: none; color:aqua">Home</a></button>
+                                <button type="button" class="btn btn-success btn-sm"><a href="{{url_for('demo')}}" style="text-decoration: none; color:aqua">Demo</a></button>
+                            </div>
+                            <!-- END SIDEBAR BUTTONS -->
+                            <!-- SIDEBAR MENU -->
+                            <!-- <div class="profile-usermenu">
+                                <ul class="nav">
+                                    <li class="active">
+                                        <a href="#">
+                                        <i class="glyphicon glyphicon-home"></i>
+                                        Overview </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                        Account Settings </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                        Tasks </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                        <i class="glyphicon glyphicon-flag"></i>
+                                        Help </a>
+                                    </li>
+                                </ul>
+                            </div> -->
+                           <center>
+                            <div class="card" style="width: 18rem;margin-top:20px;">
+                                
+                                <div class="card-body">
+                                  <h5 class="card-title">Name - <span>{{session.name}}</span></h5>
+                                  <h5 class="card-title">Id - <span>{{session.userid}}</span></h5>
+                                  <h5 class="card-title">Email - <span>{{session.email}}</span></h5>
+                                  <h5 class="card-title">Favourite Query - <span></span></h5>
+                                  <h5 class="card-title" style="border:1px solid black;background-color:#00ff95;color:white;cursor:pointer;border-radius:25px;" onclick="noQueries()">No of Queries - <span id="noofqueries"></span></h5>
+
+                                  <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                                  
+                                </div>
+                            </div>
+                           </center>
+                            <!-- END MENU -->
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            
+            <br>
+            <br>
+          </div>
+        </div>
+      </nav>
+     
+    <!-- timepass for loop for global_arr -->
+    {% for item in global_arr %}
+      <div class="global_arr" style="display:none;">{{item}}</div>
+    {% endfor %}
+
+    {% for item in list1 %}
+      <div class="list1" style="display:none;">{{item}}</div>
+    {% endfor %}
+
+    {% for item in list2 %}
+      <div class="list2" style="display:none;">{{item}}</div>
+    {% endfor %}
+
+    {% for item in list3 %}
+      <div class="list3" style="display:none;">{{item}}</div>
+    {% endfor %}
+
+    
+   
+    <div id="my-content" style="display: none;"></div>
+    <div class="main-container" id="main-container">
+        <div class="up-container" id="up_container">
+             <div class="table-container">
+                <h2 >List of ALL Tables from Database</h2>
+                
+
+                <div class="table_name" id="table_name">
                     {% for table_name in myresult %}
                     <center>
                         <div class="table_list_name" id="table_list_name">
-                            <input type="text" name="sub_class" name="check" ondragstart="drag(event)" draggable="true" id="{{table_name}}" class="items" value="{{table_name}}" disabled>
+                            <input type="text" name="sub_class" name="check" ondragstart="drag(event)" draggable="true" id="{{table_name}}" class="items" value="           {{table_name}}" disabled>
                         </div>
                     </center>
                     {% endfor %}
                 </div>
+                
              </div>
              <div class="drag_n_drop-container mid-query" id="getData">
                 <center>
-                    <h2><i>DRAG N DROP AREA</i></h2>
+                    <h2 class="text-gradient"><i>DRAG N DROP AREA</i></h2>
                 </center>
                 <div class="mid_query_box mid_query_features_box_1">
-                    <center>
-                        <h3 class="mid-query-h1"><i>Code Block</i></h3>
-                        
-                    </center>
+                    
                     <div class="mid-query2" id="getData1" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                        <center>
+                            <div class="code_block_save" >
+                                <button id="save_feature" style="background-color: #1542D4;border-radius:20px;" class="save_feature blue_btn btn btn-success" onclick="append_new_file()">Save Query</button>
+                                <h3 class="mid-query-h1" style="margin-right:20px"><i>Code Block</i></h3>
+                                <button id="save_view" style="background-color: #1542D4;" class="save_feature btn btn-success" onclick="create_view()">View</button>
+                                <button id="save_table" style="background-color: #1542D4;border-radius:20px;" class="save_feature btn btn-success" onclick="create_table()">Create Table</button>
+                                <button id="clear_query"  class="save_feature btn btn-danger" onclick="restart_server()">Clear Query</button>
+                                <!-- <button id="save_cursor" style="background-color: #1542D4;" class="save_feature btn btn-primary" onclick="create_cursor()">Cursor</button> -->
+                                <button id="save_trigger" style="background-color: #1542D4;" class="save_feature open-button btn btn-success" onclick="openForm()">Trigger</button>
+
+
+                                 <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                                    Refrences
+                                </button>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Refrences</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" style="height:40%;overflow-y:scroll;">
+                                            <h5 class="card-title"> Save Query</h5>
+                                            <p class="card-text">It saves the query to database and you can see that query in All Queries button</p>
+                                            <h5 class="card-title"> Create Table</h5>
+                                            <p class="card-text">You can select the specific checkbox and can create table </p>
+                                            <h5 class="card-title"> Clear Query</h5>
+                                            <p class="card-text">Clear Drag N Drop area.</p>
+                                            <h5 class="card-title">Output </h5>
+                                            <p class="card-text">It fetch all the output from the database of auto written query</p>
+                                            <h5 class="card-title"> Restart Server</h5>
+                                            <p class="card-text">It restarts the server means clear all frontend and backend</p>
+                                            <h5 class="card-title">Profile </h5>
+                                            <p class="card-text">Profile of user wher all user info is present and no of queries is generated by user</p>
+                                            <h5 class="card-title">All Queries </h5>
+                                            <p class="card-text">List of all queries which are generated by user.</p>
+                                            <h5 class="card-title"> Change DB</h5>
+                                            <p class="card-text">It contains a dropdown list which contains all database names which are present in user's Database</p>
+                                            <h5 class="card-title">Trigger </h5>
+                                            <p class="card-text">It adds the all marks of student and calculate percentage based on their marks and generate PL/SQL Query</p>
+                                            <h5 class="card-title">Export to CSV</h5>
+                                            <p class="card-text">It conver output data to csv.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+                            </div>
+                            
+                        </center>
                        
 
-                        <div id="display_flex">
+                        <div id="display_flex" style="display:flex">
+                            {% for i in range(dict|length) %}
+                                {% if i|int< 3 %}
+                                    <div class="card-cok" id="{{global_arr[i]}}" >
+                                        <h3 class="table_name_h3 {{global_arr[i]}}" >{{global_arr[i]}}</h3>
+                                        {% for j in range(dict[i]|length) %}
+                                            <label for="" class="new_box_1" style="display: flex;">
+                                                <input type="checkbox" name="column" onclick="checkbox()" id="column_{{dict[i][j]}}" class="check_column" value="{{dict[i][j]}}">{{dict[i][j]}}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                
+                                {% else %}
+                                  <script>
+                                    alert('Fourth table is not valid');
+                                  </script>
+
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+
+
+
+
+                        <!-- Button trigger modal -->
+                    <button type="button" id="join_button_modal" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">
+                        Update Joins
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body ">
+                                <div class="join-container" id="join_container" style="display: none;">
+                                    <div class="select_join" style="display: flex;">
+                                        <label for="join">Choose a Join:</label>
+        
+                                        <select name="join" id="join" class="form-select" style="background-color: black;color:white">
+                                            <option value="INNER JOIN">INNER JOIN</option>
+                                            <option value="LEFT JOIN">LEFT JOIN</option>
+                                            <option value="RIGHT JOIN">RIGHT JOIN</option>
+                                            <option value="FULL JOIN">FULL JOIN</option>
+                                        </select>
+                                       
+                                        <div id="join_display" style="display: none;">
+                                            <select name="join2" id="join2" class="form-select" style="background-color: black;color:white;">
+                                                <option value="INNER JOIN">INNER JOIN</option>
+                                                <option value="LEFT JOIN">LEFT JOIN</option>
+                                                <option value="RIGHT JOIN">RIGHT JOIN</option>
+                                                <option value="FULL JOIN">FULL JOIN</option>
+                                            </select>
+                                        </div>
+        
+                                        
+                                    </div>
+                                    <div class="apply_join_on" style="display: flex;">
+                                        <div class="apply_join1">
+                                            <select name="on_which_1" id="on_which_1" class="form-select" style="background-color: black;color:white;">
+                                                {% for item in list1 %}
+                                                <option value="{{item}}">{{item}}</option>
+                                                {% endfor %}
+                                                
+                                               
+                                                </select>
+                                        </div>
+                                        <div class="apply_join2">
+                                            <select name="on_which_2" id="on_which_2" class="form-select" style="background-color: black;color:white;">
+                                                {% for item in list2 %}
+                                                <option value="{{item}}">{{item}}</option>
+                                                {% endfor %}
+                                                
+                                            </select>
+                                        </div>
+                                       
+                                       <div class="apply_join3" id="apply_join_display3" style="display: none;" style="background-color: black;color:white;">
+                                            <select name="on_which_3" id="on_which_3" class="form-select">
+                                                {% for item in list3 %}
+                                                <option value="{{item}}">{{item}}</option>
+                                                {% endfor %}
+                                                
+                                            </select>
+                                        </div>
+                                       
+                                    </div>
+                                    <!-- <div class="button "><button class="btn btn-primary" type="submit" onclick="checkbox()">Update</button></div> -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="checkbox()">Save changes</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                        
+                    </div>
+
+
+
+
+
+
+                    <div class="form-popup" id="myForm">
+                        <form action="" class="form-container" id="form">
+                          <h1>Student Grade Card</h1>
+                      
+                          <label for="name"><b>Name</b></label>
+                          <input type="text" placeholder="Enter Name" name="name" required>
+                      
+                          <label for="phy"><b>Physics</b></label>
+                          <input type="number" placeholder="Enter Physics Marks" name="phy" required>
+
+                          <label for="che"><b>Chemistry</b></label>
+                          <input type="number" placeholder="Enter Chemistry Marks" name="che" required>
+
+                          <label for="maths"><b>Maths</b></label>
+                          <input type="number" placeholder="Enter Maths Marks" name="maths" required>
+                      
+                          <button type="submit" class="btn" onclick="subForm()">Create</button>
+                          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                        </form>
+                      </div>
+
+
+
+
+
+
+
+
+
+                    <div class="feature_options" id="feature_options">
+                        <h3  id="feature_heading">Select operators and clauses</h3>
+
+                        <select name="aggregate" id="aggregate_select" multiple>
+                            <option value=""></option>
+                            <option value="GROUP BY">GROUP BY</option>
+                            <option value="ORDER BY">ORDER BY</option>
+                            <option value="WHERE">WHERE</option>
+                            <option value="LIMIT">LIMIT</option>
+                            <option value="MIN">MIN</option>
+                            <option value="MIN DISTINCT">MIN DISTINCT</option>
+                            <option value="MAX">MAX</option>
+                            <option value="MAX DISTINCT">MAX DISTINCT</option>
+                            <option value="DISTINCT">DISTINCT</option>
+                            <option value="COUNT DISTINCT">COUNT DISTINCT</option>
+                            <option value="COUNT">COUNT</option>
+                            <option value="HAVING">HAVING</option>
+                            <option value="LIKE">LIKE</option>
+                            <option value="AVG">AVG</option>
+                            <option value="AVG DISTINCT">AVG DISTINCT</option>
+                            <option value="SUM">SUM</option>
+                            <option value="SUM DISTINCT">SUM DISTINCT</option>
+                            <option value="CASE">CASE</option>
+                        </select>
+                        <div class="multi-select-tag">
+
+
+
+
+
+
+
+
+
+                        </div>
+                        <div id="feature_btn">
+                            <button class="btn btn-success" style="background-color: #11f398;" onclick="checkbox()">Update</button>
+                        </div>
+                        <div id="feature_next_step" >
+                            <div id="groupby_big_container" style="display:none;">
+                                <div id="group">
+                                    <select name="groupby" id="groupby">
+                                        <option value=""></option>
+                                        {% for group in global_list_for_len2 %}
+                                        <option value="{{group}}">{{group}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+                            <div id="order_big_container" style="display:none;">
+                                <div class="orderby">
+                                    <select name="orderby" id="orderby">
+                                        <option value=""></option>
+                                        {% for order in global_list_for_len2 %}
+                                        <option value="{{order}}">{{order}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="order_asc">
+                                        <input type="radio" name="asc" id="asc" value="Asc" checked>
+                                        <label for="asc">Asc</label><br>
+                                        <input type="radio" name="asc" id="desc" value="Desc">
+                                        <label for="desc">Desc</label><br>
+                                    </div>
+                                    <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                                </div>
+                            </div>
+                            <!-- where -->
+                            <div id="where_big_container" style="display:none;">
+                                <div class="where">
+                                    <select name="where" id="where">
+                                        <option value=""></option>
+                                        {% for order in global_list_for_len2 %}
+                                        <option value="{{order}}">{{order}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="isnull">
+                                        <input type="radio" name="isnull" id="isnull" value="Is Null" >
+                                        <label for="isnull">Is Null</label><br>
+                                        <input type="radio" name="isnull" id="isnotnull" value="Is Not Null">
+                                        <label for="isnotnull">Is Not Null</label><br>
+                                    </div>
+                                    <button id="user_input">User Input</button>
+                                    <div class="user_input" id="user_input_id" style="display: none;">
+                                        <input list="browsers" type="text"  id="user_value">
+                                        <datalist id="browsers">
+                                           
+                                            {% for data_list in global_list_for_len2 %}
+                                            <option value="{{data_list}} ">
+                                            {% endfor %}
+                                          </datalist>
+                                    </div>
+                                    <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                                </div>
+                            </div>
+
+                            <!-- HAVING -->
+                            <div id="having_big_container" style="display:none;">
+                                <div class="having">
+                                    <!-- <select name="havingby" id="havingby">
+                                        <option value=""></option>
+                                        {% for order in global_list_for_len2 %}
+                                        <option value="{{order}}">{{order}}</option>
+                                        {% endfor %}
+                                    </select> -->
+                                    <!-- <div class="isnull">
+                                        <input type="radio" name="isnull" id="isnull" value="Is Null" >
+                                        <label for="isnull">Is Null</label><br>
+                                        <input type="radio" name="isnull" id="isnotnull" value="Is Not Null">
+                                        <label for="isnotnull">Is Not Null</label><br>
+                                    </div> -->
+                                    <button id="huser_input">User Input</button>
+                                    <div class="huser_input" id="huser_input_id" style="display: none;">
+                                        <input list="hbrowsers" type="text"  id="huser_value">
+                                        <datalist id="hbrowsers">
+                                           
+                                            {% for data_list in global_list_for_len2 %}
+                                            <option value="COUNT({{data_list}}) ">
+                                            {% endfor %}
+                                            {% for data_list in global_list_for_len2 %}
+                                            <option value="MIN({{data_list}}) ">
+                                            {% endfor %}
+                                            {% for data_list in global_list_for_len2 %}
+                                            <option value="MAX({{data_list}}) ">
+                                            {% endfor %}
+                                            {% for data_list in global_list_for_len2 %}
+                                            <option value="AVG({{data_list}}) ">
+                                            {% endfor %}
+                                            {% for data_list in global_list_for_len2 %}
+                                            <option value="SUM({{data_list}}) ">
+                                            {% endfor %}
+                                          </datalist>
+                                    </div>
+                                    <button id="apply"  class="btn btn-success" onclick="checkbox()">Apply</button>
+                                </div>
+                            </div>
+                           
+                            <!-- limit -->
+                            <div id="limit_big_container" style="display: none;">
+                                <label for="limit_id" class="limit_id">Enter Limit: </label>
+                                <input type="number" name="" id="limit_id" class="input_where_more">
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+                            <div id="min_big_container" style="display:none;">
+                                <div id="min">
+                                    <select name="minby" id="minby">
+                                        <option value=""></option>
+                                        {% for min in global_list_for_len2 %}
+                                        <option value="{{min}}">{{min}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+                            <!-- MIN DISTINCT -->
+                            <div id="mindistinct_big_container" style="display:none;">
+                                <div id="mindistinct">
+                                    <select name="mindistinctby" id="mindistinctby">
+                                        <option value=""></option>
+                                        {% for mindistinct in global_list_for_len2 %}
+                                        <option value="{{mindistinct}}">{{mindistinct}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+
+                            <!-- MAX -->
+                            <div id="max_big_container" style="display:none;">
+                                <div id="max">
+                                    <select name="maxby" id="maxby">
+                                        <option value=""></option>
+                                        {% for max in global_list_for_len2 %}
+                                        <option value="{{max}}">{{max}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+
+                            <!-- MAX DISTINCT -->
+                            <div id="maxdistinct_big_container" style="display:none;">
+                                <div id="maxdistinct">
+                                    <select name="maxdistinctby" id="maxdistinctby">
+                                        <option value=""></option>
+                                        {% for maxdistinct in global_list_for_len2 %}
+                                        <option value="{{maxdistinct}}">{{maxdistinct}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+
+                            <!-- DISTINCT -->
+                            <div id="distinct_big_container" style="display:none;">
+                                <div id="distinct">
+                                    <select name="distinctby" id="distinctby">
+                                        <option value=""></option>
+                                        {% for distinct in global_list_for_len2 %}
+                                        <option value="{{distinct}}">{{distinct}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+                            <!-- COUNT DISTINCT -->
+                            <div id="countdistinct_big_container" style="display:none;">
+                                <div id="countdistinct">
+                                    <select name="countdistinctby" id="countdistinctby">
+                                        <option value=""></option>
+                                        {% for count_distinct in global_list_for_len2 %}
+                                        <option value="{{count_distinct}}">{{count_distinct}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+
+                            <!-- COUNT -->
+                            <div id="count_big_container" style="display:none;">
+                                <div id="count">
+                                    <select name="countby" id="countby">
+                                        <option value=""></option>
+                                        <option value="*">*</option>
+                                        {% for count in global_list_for_len2 %}
+                                        <option value="{{count}}">{{count}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+                            <!-- AVG -->
+                            <div id="avg_big_container" style="display:none;">
+                                <div id="avg">
+                                    <select name="avgby" id="avgby">
+                                        <option value=""></option>
+                                        {% for avg in global_list_for_len2 %}
+                                        <option value="{{avg}}">{{avg}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+
+                            <!-- AVG DISTINCT -->
+                            <div id="avgdistinct_big_container" style="display:none;">
+                                <div id="avgdistinct">
+                                    <select name="avgdistinctby" id="avgdistinctby">
+                                        <option value=""></option>
+                                        {% for avgdistinct in global_list_for_len2 %}
+                                        <option value="{{avgdistinct}}">{{avgdistinct}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+                            <!-- SUM -->
+                            <div id="sum_big_container" style="display:none;">
+                                <div id="sum">
+                                    <select name="sumby" id="sumby">
+                                        <option value=""></option>
+                                        {% for sum in global_list_for_len2 %}
+                                        <option value="{{sum}}">{{sum}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" onclick="checkbox()">Apply</button>
+                            </div>
+
+                            <!-- SUM DISTINCT -->
+                            <div id="sumdistinct_big_container" style="display:none;">
+                                <div id="sumdistinct">
+                                    <select name="sumdistinctby" id="sumdistinctby">
+                                        <option value=""></option>
+                                        {% for sumdistinct in global_list_for_len2 %}
+                                        <option value="{{sumdistinct}}">{{sumdistinct}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                            </div>
+
+
+                            <!-- Like container -->
+                            <div id="like_big_container" style="display:none;">
+                                <div class="like">
+                                    <select name="likeby" id="likeby">
+                                        <option value=""></option>
+                                        {% for like in global_list_for_len2 %}
+                                        <option value="{{like}}">{{like}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <!-- <div class="isnull">
+                                        <input type="radio" name="isnull" id="isnull" value="Is Null" >
+                                        <label for="isnull">Is Null</label><br>
+                                        <input type="radio" name="isnull" id="isnotnull" value="Is Not Null">
+                                        <label for="isnotnull">Is Not Null</label><br>
+                                    </div> -->
+                                   
+                                    <div class="luser_input" id="luser_input_id" >
+                                        <input list="lbrowsers" type="text"  id="luser_value">
+                                        <datalist id="lbrowsers">
+                                           
+                                           <option value="'a%'"></option>
+                                           <option value="'%a'"></option>
+                                           <option value="'%or%'"></option>
+                                           <option value="'_r%'"></option>
+                                           <option value="'a_%'"></option>
+                                           <option value="'a__%'"></option>
+                                           <option value="'a%o'"></option>
+                                          
+                                          </datalist>
+                                    </div>
+                                    <button id="apply" class="btn btn-success" onclick="checkbox()">Apply</button>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -48,14 +767,47 @@
 
              
         </div>
+        <!-- <button type="submit">RUN</button> -->
+        <button type="submit" style="background-color: #00ff95;margin-left:10px;border-radius:20px;padding:8px 20px;" class="btn btn-success " onclick="output()">Output</button>
+        <button id="reatart_server"  onclick="restart_server()">Restart Server</button>
         <div class="down-container">
-             <center>
+             
                 <div class="query-container">
-                    <center><h2>AUTO QUERY WRITTER AREA</h2></center>
+                    <div class="query-h2">
+                        <center><h2 class="text-gradient">AUTO QUERY WRITTER AREA</h2></center>
+                    </div>
+                    <div class="inner_query-container">
+                        <div class="sql" id="sql">
+                            
+                        </div>
+                        <div onclick="copyFunction()"><i class="fa-regular fa-copy fa-bounce"></i></div>
+                    </div>
+                    <div class="trigger_query"></div>
                 </div>
-             </center>
+            
         </div>
     </div>
+    <!-- SELECT  
+        p.ProductNumber
+    , p.Name as [Product_Name]
+    , m.Name as [Model_Name]
+    , s.Name as [Subcategory_Name]
+    FROM [PRODUCTION].Product p
+    INNER JOIN [PRODUCTION].ProductModel m ON m.ProductModelID = p.ProductModelID
+    LEFT JOIN [PRODUCTION].ProductSubcategory s ON s.ProductSubcategoryID = p.ProductSubcategoryID
+    ORDER BY p.Name
+    GO -->
+    <div id="btn_csv" style="display:none;">
+        <button class="btn btn-info" onclick="Visualize()">Visualize</button>
+        <button class="btn btn-danger" onclick="toCSV()">Export to CSV</button>
+    </div>
+    <div id="output_container">
+        <!-- {{ html_table|safe }} -->
+    </div>
+
+
+   
+
 
 
 
@@ -65,7 +817,37 @@
 
 
     {% endblock %}
-    <script src="/staticFiles/index.js"></script>
+    
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+          }
+          
+          function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+          }
+      </script>
+       
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script src="/staticFiles/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+    <script>
+        
+        new MultiSelectTag('aggregate_select', {
+            rounded: true,    // default true
+            shadow: true      // default false
+        })
+        
+    </script>
+   
   </body>
 </html>

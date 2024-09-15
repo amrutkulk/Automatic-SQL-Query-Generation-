@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Notes</title>
+    <link rel="stylesheet" href='/staticFiles/style.css' />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/496b9c5c00.js" crossorigin="anonymous"></script>
+   
+    
+    
+    <link rel="website icon" type="PNG" href="staticFiles/images/SQL_logo.PNG">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan&family=Assistant&family=Fira+Sans:wght@300&family=Mulish&family=PT+Sans&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+<style>
+    #flashcard-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .flashcard {
+        width: 200px;
+        height: 200px;
+        margin: 10px;
+        perspective: 1000px;
+        cursor: pointer;
+      }
+      
+      .front, .back {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        backface-visibility: hidden;
+      }
+      
+      .front {
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .back {
+        background-color: #f1f1f1;
+        transform: rotateY(180deg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .flashcard p {
+        font-size: 18px;
+      }
+      
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+
+      .card_sql{
+        width: 25rem;
+      }
+</style>
+<body>
+    <nav class="navbar navbar-dark bg-dark fixed-top" id="timepass">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Auto SQL</a>
+          <h1 style="color: white;">Hey {{session.name}} <span id="user_id">{{session.userid}}</span></h1>
+        
+          <p style="color: white;">Learn SQL </p>
+          <a style="color: white;" href="{{url_for('home')}}" >Home</a>
+         
+
+          <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbars" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Profile</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+           
+           
+            
+            <br>
+            <br>
+          </div>
+        </div>
+      </nav>
+
+      <br>
+      <br><br>
+
+      <div class="container">
+        <div class="row">
+
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title"> What is Database?</h5>
+                <p class="card-text">A database is an organized collection of data, stored and retrieved digitally from a remote or local computer system. Databases can be vast and complex, and such databases are developed using fixed design and modeling approaches.</p>
+                <!-- <a href="#" class="card-link">Another link</a> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is DBMS?</h5>
+                <p class="card-text">DBMS stands for Database Management System. DBMS is a system software responsible for the creation, retrieval, updation, and management of the database. It ensures that our data is consistent, organized, and is easily accessible by serving as an interface between the database and its end-users or application software</p>
+                <!-- <a href="#" class="card-link">Another link</a> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title"> What is SQL?</h5>
+                <p class="card-text">SQL is a standard language for retrieving and manipulating structured databases. On the contrary, MySQL is a relational database management system, like SQL Server, Oracle or IBM DB2, that is used to manage SQL databases.</p>
+                <!-- <a href="#" class="card-link">Another link</a> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title"> What are Tables and Fields?</h5>
+                <p class="card-text">A table is an organized collection of data stored in the form of rows and columns. Columns can be categorized as vertical and rows as horizontal. The columns in a table are called fields while the rows can be referred to as records.</p>
+              
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is a Primary Key?</h5>
+                <p class="card-text">The PRIMARY KEY constraint uniquely identifies each row in a table. It must contain UNIQUE values and has an implicit NOT NULL constraint.
+                  A table in SQL is strictly restricted to have one and only one primary key, which is comprised of single or multiple fields (columns).</p>
+              
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is a UNIQUE constraint?</h5>
+                <p class="card-text">A UNIQUE constraint ensures that all values in a column are different. This provides uniqueness for the column(s) and helps identify each row uniquely. Unlike primary key, there can be multiple unique constraints defined per table. The code syntax for UNIQUE is quite similar to that of PRIMARY KEY and can be used interchangeably.</p>
+               
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is a Foreign Key?</h5>
+                <p class="card-text"> A FOREIGN KEY comprises of single or collection of fields in a table that essentially refers to the PRIMARY KEY in another table. Foreign key constraint ensures referential integrity in the relation between two tables.
+                  The table with the foreign key constraint is labeled as the child table, and the table containing the candidate key is labeled as the referenced or parent table.</p>
+               
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is a Join? List its different types.</h5>
+                <p class="card-text">The SQL Join clause is used to combine records (rows) from two or more tables in a SQL database based on a related column between the two.
+                  <ul>
+                    <li>Inner Join</li>
+                    <li>Left Join</li>
+                    <li>Right Join</li>
+                    <li>Full Join</li>
+                  </ul>
+                </p>
+               
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is an Index? </h5>
+                <p class="card-text">A database index is a data structure that provides a quick lookup of data in a column or columns of a table. It enhances the speed of operations accessing data from a database table at the cost of additional writes and memory to maintain the index data structure.</p>
+               
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title"> What is Data Integrity?</h5>
+                <p class="card-text">Data Integrity is the assurance of accuracy and consistency of data over its entire life-cycle and is a critical aspect of the design, implementation, and usage of any system which stores, processes, or retrieves data. It also defines integrity constraints to enforce business rules on the data when it is entered into an application or a database.</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">
+                  17. What is a Query?</h5>
+                <p class="card-text">A query is a request for data or information from a database table or combination of tables. A database query can be either a select query or an action query.</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">SELECT QUERY</h5>
+                <p class="card-text">SELECT fname, lname 
+                  FROM myDb.students
+                  WHERE student_id = 1;</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">UPSATE QUERY</h5>
+                <p class="card-text">UPDATE myDB.students    /* action query */
+                  SET fname = 'Captain', lname = 'America'
+                  WHERE student_id = 1;</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title"> What is a Subquery? What are its types?</h5>
+                <p class="card-text">A subquery is a query within another query, also known as a nested query or inner query. It is used to restrict or enhance the data to be queried by the main query, thus restricting or enhancing the output of the main query respectively. 
+                  <ul>
+                    <li>Corelated</li>
+                    <li>non-correlated</li>
+                  </ul>
+                </p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title"> What is the SELECT statement?</h5>
+                <p class="card-text">SELECT operator in SQL is used to select data from a database. The data returned is stored in a result table, called the result-set.
+
+                  SELECT * FROM myDB.students;</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What are some common clauses used with SELECT query in SQL?</h5>
+                <p class="card-text">
+                  <ul>
+                    <li>WHERE</li>
+                    <li>ORDER BY</li>
+                    <li>GROUP BY</li>
+                    <li>HAVING</li>
+                  </ul>
+
+                  SELECT *
+                  FROM myDB.students
+                  WHERE graduation_year = 2019
+                  ORDER BY studentID DESC; <br>
+                  SELECT COUNT(studentId), country
+                  FROM myDB.students
+                  WHERE country != "INDIA"
+                  GROUP BY country
+                  HAVING COUNT(studentID) > 5
+                </p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is an Alias in SQL?</h5>
+                <p class="card-text">An alias is a feature of SQL that is supported by most, if not all, RDBMSs. It is a temporary name assigned to the table or table column for the purpose of a particular SQL query. In addition, aliasing can be employed as an obfuscation technique to secure the real names of database fields. A table alias is also called a correlation name.</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is an View?</h5>
+                <p class="card-text">A view in SQL is a virtual table based on the result-set of an SQL statement. A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database.</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">Normalization</h5>
+                <p class="card-text">Normalization represents the way of organizing structured data in the database efficiently. It includes the creation of tables, establishing relationships between them, and defining rules for those relationships. Inconsistency and redundancy can be kept in check based on these rules, hence, adding flexibility to the database.</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">What is the difference between DROP and TRUNCATE statements?</h5>
+                <p class="card-text">If a table is dropped, all things associated with the tables are dropped as well. This includes - the relationships defined on the table with other tables, the integrity checks and constraints, access privileges and other grants that the table has. To create and use the table again in its original form, all these relations, checks, constraints, privileges and relationships need to be redefined. However, if a table is truncated, none of the above problems exist and the table retains its original structure</p>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card my-4 card_sql" >
+              <div class="card-body">
+                <h5 class="card-title">Aggeregate Functions?</h5>
+                <p class="card-text">
+                  <ul>
+                    <li>MIN()</li>
+                    <li>MAX()</li>
+                    <li>AVG()</li>
+                    <li>SUM()</li>
+                    <li>COUNT()</li>
+                  </ul>
+                </p>
+
+                
+              </div>
+            </div>
+          </div>
+
+       
+        
+        </div>
+      </div>
+       
+</body>
+</html>
